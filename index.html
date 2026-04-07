@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--
+  Sweet P's Snowball Shack — Version 2
+  sweetpssnowballshack.com
+  930B N Charles G Seivers Blvd · Clinton, TN 37716
+  (865) 740-3227
+  ─────────────────────────────────────────────
+  Stack:    HTML5 · CSS3 · JavaScript ES6+
+  Icons:    Font Awesome 6.7.2 Free (cdnjs)
+  Fonts:    Boogaloo · Fredoka · Nunito (Google Fonts)
+  A11y:     WCAG 2.2 AA · Mobile-first responsive
+  Built by: HC Web Labs — hcweblabs.com
+  Version:  2 — Pastel Neobrutalist
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sweet P's Snowball Shack — Clinton, Tennessee's favorite summer treat spot. Snowballs, milkshakes, soft serve, slushies, banana splits and ice cream nachos. Open spring through summer, Tuesday–Saturday 2–9 PM.">
+  <meta name="theme-color" content="#A8E6F0">
+  <title>Sweet P's Snowball Shack — Clinton, TN</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous">
+
+  <style>
+
+    /* ═══════════════════════════════════════
+       DESIGN TOKENS
+    ═══════════════════════════════════════ */
+    :root {
+      /* Pastels */
+      --sky:         #A8E6F0;
+      --sky-dark:    #4A7A8A;
+      --sky-pale:    #E4F7FB;
+      --pink:        #F9BADD;
+      --pink-dark:   #9A6080;
+      --pink-pale:   #FDE8F4;
+      --orange:      #FDC9A0;
+      --orange-dark: #9A6840;
+      --orange-pale: #FEF0E4;
+      --lime:        #B8EFC8;
+      --lime-dark:   #508860;
+      --lime-pale:   #E4F8EC;
+      --yellow:      #FEF0A0;
+      --yellow-dark: #908830;
+      --purple:      #DDB8F8;
+      --purple-dark: #6A50A0;
+      --purple-pale: #F4E8FE;
+      --red:         #F8BABA;
+      --red-dark:    #A06060;
+
+      /* Foundation */
+      --white:       #FFFFFF;
+      --cream:       #FFFBF0;
+      --ink:         #2D3E4A;
+      --ink-soft:    #4A6070;
+      --ink-muted:   #7A90A0;
+
+      /* Borders */
+      --bw:          3px;
+      --border-sky:    #4A7A8A;
+      --border-pink:   #9A6080;
+      --border-orange: #9A6840;
+      --border-lime:   #508860;
+      --border-yellow: #908830;
+      --border-purple: #6A50A0;
+      --border-red:    #A06060;
+      --border-cream:  #A09070;
+
+      /* Typography */
+      --font-display: 'Boogaloo', cursive;
+      --font-ui:      'Fredoka', sans-serif;
+      --font-body:    'Nunito', sans-serif;
+
+      /* System */
+      --nav-h:       72px;
+      --r-sm:        8px;
+      --r-md:        14px;
+      --r-lg:        20px;
+      --r-pill:      9999px;
+      --ease:        cubic-bezier(0.16, 1, 0.3, 1);
+
+      /* Candy stripe — shared motif */
+      --stripe: repeating-linear-gradient(
+        135deg,
+        var(--sky)    0px,   var(--sky)    40px,
+        var(--white)  40px,  var(--white)  52px,
+        var(--pink)   52px,  var(--pink)   92px,
+        var(--white)  92px,  var(--white)  104px,
+        var(--orange) 104px, var(--orange) 144px,
+        var(--white)  144px, var(--white)  156px,
+        var(--lime)   156px, var(--lime)   196px,
+        var(--white)  196px, var(--white)  208px,
+        var(--yellow) 208px, var(--yellow) 248px,
+        var(--white)  248px, var(--white)  260px
+      );
+
+      --nav-scrim: 1;
+    }
+
+    /* ═══════════════════════════════════════
+       RESET
+    ═══════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-padding-top: var(--nav-h); }
+    @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+    body {
+      font-family: var(--font-body);
+      background:
+        linear-gradient(rgba(255,251,240,0.72), rgba(255,251,240,0.72)),
+        url('https://cdn.pixabay.com/photo/2026/04/03/23/19/23-19-28-249_1280.png') center / 400px auto repeat;
+      color: var(--ink);
+      padding-top: var(--nav-h);
+      overflow-x: hidden;
+    }
+
+    ul[role="list"] { list-style: none; }
+
+    img { max-width: 100%; display: block; }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border-width: 0;
+    }
+
+    /* ═══════════════════════════════════════
+       SKIP LINK
+    ═══════════════════════════════════════ */
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem; z-index: 9999;
+      background: var(--sky); color: var(--ink);
+      font-family: var(--font-ui); font-size: .95rem; font-weight: 700;
+      padding: .6rem 1.25rem;
+      border: var(--bw) solid var(--border-sky); border-radius: var(--r-pill);
+      box-shadow: 4px 4px 0 var(--border-sky);
+      text-decoration: none;
+      transition: top 150ms ease;
+    }
+    .skip-link:focus-visible { top: 1rem; outline: 3px solid var(--border-sky); outline-offset: 3px; }
+
+    /* ═══════════════════════════════════════
+       SCROLLBAR
+    ═══════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--sky-pale); border-left: 2px solid var(--border-sky); }
+    ::-webkit-scrollbar-thumb { background: var(--pink); border-radius: var(--r-pill); border: 2px solid var(--border-pink); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--pink-dark); }
+    * { scrollbar-width: thin; scrollbar-color: var(--pink) var(--sky-pale); }
+
+    /* ═══════════════════════════════════════
+       FOCUS
+    ═══════════════════════════════════════ */
+    :focus-visible { outline: 3px solid var(--border-sky); outline-offset: 3px; }
+
+    /* ═══════════════════════════════════════
+       SCROLL TO TOP
+    ═══════════════════════════════════════ */
+    .scroll-top {
+      position: fixed; bottom: 1.75rem; right: 1.75rem; z-index: 400;
+      width: 52px; height: 52px;
+      background: var(--pink); color: var(--pink-dark);
+      border: var(--bw) solid var(--border-pink); border-radius: var(--r-md);
+      box-shadow: 4px 4px 0 var(--border-pink);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; cursor: pointer; padding: 0;
+      opacity: 0; transform: translateY(12px); pointer-events: none;
+      transition: opacity 300ms var(--ease), transform 300ms var(--ease), box-shadow 150ms ease;
+    }
+    .scroll-top.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .scroll-top:hover { transform: translate(-2px, -4px); box-shadow: 6px 6px 0 var(--border-pink); }
+    .scroll-top:active { transform: translate(0); box-shadow: 2px 2px 0 var(--border-pink); }
+
+    /* ═══════════════════════════════════════
+       CUSTOM CURSOR
+    ═══════════════════════════════════════ */
+    @media (pointer: fine) {
+      * { cursor: none !important; }
+      .cursor {
+        position: fixed; top: 0; left: 0;
+        width: 26px; height: 30px;
+        pointer-events: none; z-index: 9999;
+        transform: translate(0, 0);
+        will-change: transform;
+        transition: opacity 200ms ease, width 200ms var(--ease), height 200ms var(--ease);
+      }
+      .cursor svg { width: 100%; height: 100%; filter: drop-shadow(1px 2px 0px rgba(90,128,144,0.70)); }
+      .cursor--active { width: 32px; height: 38px; }
+      .cursor--hidden { opacity: 0; }
+    }
+
+    /* ═══════════════════════════════════════
+       SITE HEADER
+    ═══════════════════════════════════════ */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      height: var(--nav-h);
+      background: var(--stripe);
+      box-shadow: 0 4px 12px rgba(74,122,138,0.15);
+    }
+
+    /* Cream scrim fades out as user scrolls */
+    .site-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--cream);
+      opacity: var(--nav-scrim, 1);
+      pointer-events: none;
+      transition: opacity 80ms linear;
+    }
+
+    .nav-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 100%; max-width: 1200px; margin: 0 auto;
+      padding: 0 1.5rem; position: relative; z-index: 2; gap: .75rem;
+    }
+
+    /* Logo */
+    .nav-logo {
+      text-decoration: none; flex-shrink: 0;
+      display: flex; align-items: center;
+    }
+    .nav-logo__pill {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-display); font-size: clamp(.9rem, 2vw, 1.15rem);
+      color: var(--ink);
+      background: var(--white);
+      border: var(--bw) solid var(--border-cream); border-radius: var(--r-pill);
+      padding: .5rem 1.25rem;
+      box-shadow: 4px 4px 0 var(--border-cream);
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .nav-logo__pill:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--border-cream); }
+    .nav-logo__pill i { color: var(--border-sky); font-size: 1rem; }
+
+    /* Desktop nav */
+    .nav-links { display: none; }
+    @media (min-width: 768px) {
+      .nav-links { display: flex; align-items: center; gap: .5rem; }
+    }
+    .nav-links a {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-family: var(--font-ui); font-size: .9rem; font-weight: 600;
+      color: var(--ink); text-decoration: none; white-space: nowrap;
+      min-height: 44px; padding: .35rem 1rem;
+      border: 2px solid var(--border-cream); border-radius: var(--r-pill);
+      background: var(--white);
+      box-shadow: 3px 3px 0 var(--border-cream);
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .nav-links a:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 var(--border-cream);
+    }
+    .nav-links a:active {
+      transform: none;
+      box-shadow: 1px 1px 0 var(--border-cream);
+    }
+    .nav-links a i { font-size: .8rem; color: var(--ink-muted); }
+
+    /* Hamburger */
+    .nav-toggle {
+      display: flex; align-items: center; justify-content: center;
+      width: 48px; height: 48px;
+      background: var(--white); border: var(--bw) solid var(--border-cream);
+      border-radius: var(--r-sm); cursor: pointer; padding: 0; flex-shrink: 0;
+      box-shadow: 4px 4px 0 var(--border-cream);
+      font-size: 1.2rem; color: var(--ink);
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .nav-toggle:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--border-cream); }
+    .nav-toggle:active { transform: none; box-shadow: 2px 2px 0 var(--border-cream); }
+    @media (min-width: 768px) { .nav-toggle { display: none; } }
+
+    /* ═══════════════════════════════════════
+       MOBILE MENU
+    ═══════════════════════════════════════ */
+    .mobile-menu {
+      position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 490;
+      background: var(--cream);
+      border-bottom: var(--bw) solid var(--border-sky);
+      border-left: 5px solid var(--pink);
+      border-right: 5px solid var(--sky);
+      box-shadow: 0 8px 24px rgba(74,122,138,0.25);
+      padding: 1rem;
+      visibility: hidden; opacity: 0; transform: translateY(-8px);
+      transition: opacity 260ms var(--ease), transform 260ms var(--ease), visibility 0ms 260ms;
+    }
+    .mobile-menu.is-open {
+      visibility: visible; opacity: 1; transform: translateY(0);
+      transition: opacity 260ms var(--ease), transform 260ms var(--ease), visibility 0ms;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mobile-menu { transform: none; transition: opacity 150ms ease, visibility 0ms 150ms; }
+      .mobile-menu.is-open { transition: opacity 150ms ease, visibility 0ms; }
+    }
+    @media (min-width: 768px) { .mobile-menu { display: none !important; } }
+
+    /* Split inner layout */
+    .mobile-menu__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .mobile-menu__links { display: flex; flex-direction: column; gap: .5rem; }
+
+    .mobile-menu__link {
+      display: flex; align-items: center; gap: .85rem;
+      min-height: 54px; padding: 0 1.1rem;
+      border-radius: var(--r-md);
+      text-decoration: none; font-family: var(--font-ui);
+      font-size: 1.05rem; font-weight: 700; color: var(--ink);
+      border: var(--bw) solid transparent;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .mobile-menu__link:hover { transform: translate(-2px, -2px); }
+    .mobile-menu__link--sky    { background: var(--sky);    border-color: var(--border-sky);    box-shadow: 4px 4px 0 var(--border-sky); }
+    .mobile-menu__link--pink   { background: var(--pink);   border-color: var(--border-pink);   box-shadow: 4px 4px 0 var(--border-pink); }
+    .mobile-menu__link--orange { background: var(--orange); border-color: var(--border-orange); box-shadow: 4px 4px 0 var(--border-orange); }
+    .mobile-menu__link--lime   { background: var(--lime);   border-color: var(--border-lime);   box-shadow: 4px 4px 0 var(--border-lime); }
+    .mobile-menu__link--purple { background: var(--purple); border-color: var(--border-purple); box-shadow: 4px 4px 0 var(--border-purple); }
+    .mobile-menu__link--sky:hover    { box-shadow: 6px 6px 0 var(--border-sky); }
+    .mobile-menu__link--pink:hover   { box-shadow: 6px 6px 0 var(--border-pink); }
+    .mobile-menu__link--orange:hover { box-shadow: 6px 6px 0 var(--border-orange); }
+    .mobile-menu__link--lime:hover   { box-shadow: 6px 6px 0 var(--border-lime); }
+    .mobile-menu__link--purple:hover { box-shadow: 6px 6px 0 var(--border-purple); }
+    .mobile-menu__icon { font-size: 1rem; width: 1.1rem; text-align: center; flex-shrink: 0; }
+    .mobile-menu__link--sky    .mobile-menu__icon { color: var(--border-sky); }
+    .mobile-menu__link--pink   .mobile-menu__icon { color: var(--border-pink); }
+    .mobile-menu__link--orange .mobile-menu__icon { color: var(--border-orange); }
+    .mobile-menu__link--lime   .mobile-menu__icon { color: var(--border-lime); }
+    .mobile-menu__link--purple .mobile-menu__icon { color: var(--border-purple); }
+    .mobile-menu__tag {
+      margin-left: auto; font-family: var(--font-ui); font-size: .6rem;
+      font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+      padding: .2rem .55rem; border-radius: var(--r-pill);
+      background: rgba(255,255,255,0.6); color: var(--ink-soft);
+    }
+
+    /* Right panel */
+    .mobile-menu__panel {
+      background: var(--white);
+      border: var(--bw) solid var(--border-cream);
+      border-radius: var(--r-md);
+      box-shadow: 4px 4px 0 var(--border-cream);
+      padding: 1.1rem 1.25rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      height: 100%;
+    }
+
+    .mobile-menu__panel-title {
+      font-family: var(--font-display); font-size: 1.35rem; color: var(--ink);
+      padding-bottom: .65rem;
+      border-bottom: 2px dashed rgba(0,0,0,0.08);
+    }
+
+    .mobile-menu__info-item {
+      display: flex; align-items: center; gap: .65rem;
+      font-family: var(--font-ui); font-size: 1rem; color: var(--ink-soft);
+    }
+    .mobile-menu__info-item i { font-size: 1rem; flex-shrink: 0; }
+    .mobile-menu__info-item a { color: var(--border-sky); font-weight: 600; text-decoration: none; }
+    .mobile-menu__info-item a:hover { text-decoration: underline; }
+    .mobile-menu__info-item--phone  i { color: var(--border-lime); }
+    .mobile-menu__info-item--fb     i { color: var(--border-sky); }
+    .mobile-menu__info-item--ig     i { color: var(--border-pink); }
+    .mobile-menu__info-item--hours  i { color: var(--border-yellow); }
+    .mobile-menu__info-item--addr   i { color: var(--border-sky); }
+
+    .mobile-menu__social {
+      display: flex; gap: .75rem; margin-top: .25rem;
+    }
+    .mobile-menu__social-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--r-sm); border: var(--bw) solid transparent;
+      font-size: 1.2rem; text-decoration: none;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .mobile-menu__social-btn:hover { transform: translate(-2px, -2px); }
+    .mobile-menu__social-btn--fb { background: var(--sky);  border-color: var(--border-sky);  box-shadow: 3px 3px 0 var(--border-sky);  color: var(--border-sky); }
+    .mobile-menu__social-btn--ig { background: var(--pink); border-color: var(--border-pink); box-shadow: 3px 3px 0 var(--border-pink); color: var(--border-pink); }
+    .mobile-menu__social-btn--fb:hover { box-shadow: 5px 5px 0 var(--border-sky); }
+    .mobile-menu__social-btn--ig:hover { box-shadow: 5px 5px 0 var(--border-pink); }
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-family: var(--font-ui); font-size: .75rem; font-weight: 700;
+      color: var(--border-yellow); background: var(--yellow);
+      border: 2px solid var(--border-yellow); border-radius: var(--r-pill);
+      padding: .25rem .75rem; box-shadow: 2px 2px 0 var(--border-yellow);
+      align-self: flex-start;
+    }
+
+    /* Stagger in */
+    .mobile-menu.is-open .mobile-menu__link { animation: link-in 280ms var(--ease) both; }
+    .mobile-menu.is-open .mobile-menu__link:nth-child(1) { animation-delay: 30ms; }
+    .mobile-menu.is-open .mobile-menu__link:nth-child(2) { animation-delay: 65ms; }
+    .mobile-menu.is-open .mobile-menu__link:nth-child(3) { animation-delay: 100ms; }
+    .mobile-menu.is-open .mobile-menu__link:nth-child(4) { animation-delay: 135ms; }
+    .mobile-menu.is-open .mobile-menu__link:nth-child(5) { animation-delay: 170ms; }
+    @keyframes link-in {
+      from { opacity: 0; transform: translateX(-12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @media (prefers-reduced-motion: reduce) { .mobile-menu.is-open .mobile-menu__link { animation: none; } }
+
+    /* ═══════════════════════════════════════
+       SHARED LAYOUT
+    ═══════════════════════════════════════ */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+    .section-eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-ui); font-size: .75rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      margin-bottom: .75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: var(--ink); line-height: 1.0; margin-bottom: .85rem;
+    }
+
+    .section-intro {
+      font-family: var(--font-ui); font-size: 1.05rem;
+      color: var(--ink-soft); line-height: 1.6; max-width: 560px;
+    }
+
+    /* ═══════════════════════════════════════
+       BUTTONS
+    ═══════════════════════════════════════ */
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-ui); font-size: 1rem; font-weight: 700;
+      text-decoration: none; color: var(--ink);
+      padding: .7rem 1.5rem; min-height: 48px;
+      border: var(--bw) solid transparent; border-radius: var(--r-md);
+      transition: transform 150ms ease, box-shadow 150ms ease;
+      white-space: nowrap; cursor: pointer;
+    }
+    .btn:hover { transform: translate(-2px, -2px); }
+    .btn:active { transform: none; }
+    .btn--sky    { background: var(--sky);    border-color: var(--border-sky);    box-shadow: 5px 5px 0 var(--border-sky); }
+    .btn--pink   { background: var(--pink);   border-color: var(--border-pink);   box-shadow: 5px 5px 0 var(--border-pink); }
+    .btn--lime   { background: var(--lime);   border-color: var(--border-lime);   box-shadow: 5px 5px 0 var(--border-lime); }
+    .btn--sky:hover    { box-shadow: 7px 7px 0 var(--border-sky); }
+    .btn--pink:hover   { box-shadow: 7px 7px 0 var(--border-pink); }
+    .btn--lime:hover   { box-shadow: 7px 7px 0 var(--border-lime); }
+    .btn--sky:active   { box-shadow: 2px 2px 0 var(--border-sky); }
+    .btn--pink:active  { box-shadow: 2px 2px 0 var(--border-pink); }
+    .btn--lime:active  { box-shadow: 2px 2px 0 var(--border-lime); }
+    .btn i { color: var(--ink); }
+
+    /* ═══════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════ */
+    .hero {
+      position: relative; overflow: hidden;
+      background: var(--stripe);
+      padding: 0;
+      min-height: calc(100svh - var(--nav-h));
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
+
+    /* Cream wash */
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(255,251,240,0.5); pointer-events: none;
+    }
+
+    .hero__body {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem; align-items: center;
+      padding: clamp(3rem, 8vw, 5rem) 1.5rem;
+      max-width: 1100px; margin: 0 auto; width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .hero__body { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Left column */
+    .hero__left { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .hero__eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-ui); font-size: .78rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-muted);
+      background: var(--white); border: var(--bw) solid var(--border-cream);
+      border-radius: var(--r-pill); padding: .35em 1em;
+      box-shadow: 3px 3px 0 var(--border-cream); width: fit-content;
+    }
+    .hero__eyebrow i { color: var(--border-sky); }
+
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      line-height: .95; color: var(--ink);
+    }
+    .hero__title-line1 { display: block; color: var(--border-sky); }
+    .hero__title-line2 { display: block; }
+
+    .hero__motto {
+      font-family: var(--font-ui); font-size: 1.1rem; font-style: italic;
+      color: var(--orange-dark); font-weight: 600;
+    }
+
+    .hero__actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+
+    /* Right column — big stacked pills */
+    .hero__right {
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .hero__menu-pill {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.25rem;
+      border: var(--bw) solid transparent; border-radius: var(--r-md);
+      font-family: var(--font-ui); font-size: 1.05rem; font-weight: 700;
+      color: var(--ink);
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .hero__menu-pill:hover { transform: translate(-3px, -3px); }
+    .hero__menu-pill-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      border: 2px solid transparent; border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .hero__menu-pill-text { flex: 1; }
+    .hero__menu-pill-name { display: block; }
+    .hero__menu-pill-sub  { display: block; font-size: .75rem; font-weight: 500; color: var(--ink-soft); }
+    .hero__menu-pill-arrow { font-size: .75rem; color: var(--ink-muted); }
+
+    .hmp--sky    { background: var(--sky);    border-color: var(--border-sky);    box-shadow: 5px 5px 0 var(--border-sky); }
+    .hmp--pink   { background: var(--pink);   border-color: var(--border-pink);   box-shadow: 5px 5px 0 var(--border-pink); }
+    .hmp--orange { background: var(--orange); border-color: var(--border-orange); box-shadow: 5px 5px 0 var(--border-orange); }
+    .hmp--lime   { background: var(--lime);   border-color: var(--border-lime);   box-shadow: 5px 5px 0 var(--border-lime); }
+    .hmp--purple { background: var(--purple); border-color: var(--border-purple); box-shadow: 5px 5px 0 var(--border-purple); }
+    .hmp--red    { background: var(--red);    border-color: var(--border-red);    box-shadow: 5px 5px 0 var(--border-red); }
+
+    .hmp--sky:hover    { box-shadow: 7px 7px 0 var(--border-sky); }
+    .hmp--pink:hover   { box-shadow: 7px 7px 0 var(--border-pink); }
+    .hmp--orange:hover { box-shadow: 7px 7px 0 var(--border-orange); }
+    .hmp--lime:hover   { box-shadow: 7px 7px 0 var(--border-lime); }
+    .hmp--purple:hover { box-shadow: 7px 7px 0 var(--border-purple); }
+    .hmp--red:hover    { box-shadow: 7px 7px 0 var(--border-red); }
+
+    .hmp--sky    .hero__menu-pill-icon { background: var(--sky-pale);    border-color: var(--border-sky);    color: var(--border-sky); }
+    .hmp--pink   .hero__menu-pill-icon { background: var(--pink-pale);   border-color: var(--border-pink);   color: var(--border-pink); }
+    .hmp--orange .hero__menu-pill-icon { background: var(--orange-pale); border-color: var(--border-orange); color: var(--border-orange); }
+    .hmp--lime   .hero__menu-pill-icon { background: var(--lime-pale);   border-color: var(--border-lime);   color: var(--border-lime); }
+    .hmp--purple .hero__menu-pill-icon { background: var(--purple-pale); border-color: var(--border-purple); color: var(--border-purple); }
+    .hmp--red    .hero__menu-pill-icon { background: var(--red);         border-color: var(--border-red);    color: var(--border-red); }
+
+    /* Hero marquee strip — double row, opposite directions */
+    .hero__strip {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .marquee-row {
+      display: flex; overflow: hidden;
+    }
+    .marquee-track {
+      display: flex; white-space: nowrap; flex-shrink: 0;
+      animation: marquee-fwd 18s linear infinite;
+    }
+    .marquee-track--rev {
+      animation: marquee-rev 22s linear infinite;
+    }
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: .6em;
+      font-family: var(--font-display); font-size: 1.05rem;
+      color: var(--ink); flex-shrink: 0;
+      padding: .65em 1.5em;
+      border-right: var(--bw) solid rgba(0,0,0,0.1);
+    }
+    .marquee-item i { font-size: .9em; }
+
+    /* Color-block each item */
+    .mi--sky    { background: var(--sky);    color: var(--border-sky); }
+    .mi--pink   { background: var(--pink);   color: var(--border-pink); }
+    .mi--orange { background: var(--orange); color: var(--border-orange); }
+    .mi--lime   { background: var(--lime);   color: var(--border-lime); }
+    .mi--yellow { background: var(--yellow); color: var(--border-yellow); }
+    .mi--purple { background: var(--purple); color: var(--border-purple); }
+    .mi--red    { background: var(--red);    color: var(--border-red); }
+    .mi--cream  { background: var(--white);  color: var(--ink-soft); }
+
+    @keyframes marquee-fwd {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes marquee-rev {
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+
+    /* Hero entrance */
+    @media (prefers-reduced-motion: no-preference) {
+      .hero__eyebrow { animation: fade-up 450ms var(--ease) 80ms  both; }
+      .hero__title   { animation: fade-up 450ms var(--ease) 160ms both; }
+      .hero__motto   { animation: fade-up 450ms var(--ease) 240ms both; }
+      .hero__actions { animation: fade-up 450ms var(--ease) 320ms both; }
+      .hero__menu-pill              { animation: slide-in 400ms var(--ease) both; }
+      .hero__menu-pill:nth-child(1) { animation-delay: 200ms; }
+      .hero__menu-pill:nth-child(2) { animation-delay: 260ms; }
+      .hero__menu-pill:nth-child(3) { animation-delay: 320ms; }
+      .hero__menu-pill:nth-child(4) { animation-delay: 380ms; }
+      .hero__menu-pill:nth-child(5) { animation-delay: 440ms; }
+      .hero__menu-pill:nth-child(6) { animation-delay: 500ms; }
+    }
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ═══════════════════════════════════════
+       MENU SECTION
+    ═══════════════════════════════════════ */
+    .menu-section {
+      padding: clamp(4rem,8vw,6rem) 1.5rem;
+      background: transparent;
+    }
+    .menu-section .section-eyebrow { color: var(--border-sky); }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    @media (min-width: 560px) { .menu-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 900px) { .menu-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .menu-card {
+      background: var(--white);
+      border: var(--bw) solid var(--mc-border, var(--border-sky));
+      border-radius: var(--r-lg); overflow: hidden;
+      box-shadow: 5px 5px 0 var(--mc-border, var(--border-sky));
+      display: flex; flex-direction: column;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 380ms var(--ease), transform 380ms var(--ease), box-shadow 150ms ease;
+    }
+    .menu-card.is-visible { opacity: 1; transform: translateY(0); }
+    .menu-card:hover { transform: translateY(-3px); box-shadow: 7px 7px 0 var(--mc-border, var(--border-sky)); }
+    @media (prefers-reduced-motion: reduce) { .menu-card { opacity: 1; transform: none; transition: box-shadow 150ms ease; } }
+
+    .menu-card__head {
+      display: flex; align-items: center; gap: .85rem;
+      padding: 1.25rem 1.25rem 1rem;
+      border-bottom: var(--bw) solid var(--mc-border, var(--border-sky));
+      background: var(--mc-pale);
+    }
+    .menu-card__icon {
+      width: 2.6rem; height: 2.6rem;
+      border: 2px solid var(--mc-border); border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+      background: var(--mc-color); color: var(--mc-border);
+      box-shadow: -3px 3px 0 var(--mc-border);
+    }
+    .menu-card__title {
+      font-family: var(--font-display); font-size: 1.15rem;
+      color: var(--mc-border); line-height: 1.15;
+    }
+    .menu-card__body {
+      padding: 1.1rem 1.25rem 1.25rem;
+      display: flex; flex-direction: column; flex: 1; gap: .85rem;
+    }
+    .menu-card__desc {
+      font-family: var(--font-body); font-size: .95rem;
+      color: var(--ink-soft); line-height: 1.7; flex: 1;
+    }
+    .menu-card__chip {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-family: var(--font-ui); font-size: .68rem; font-weight: 700;
+      letter-spacing: .5px; text-transform: uppercase;
+      padding: .35rem .85rem; border-radius: var(--r-pill);
+      border: 2px solid var(--mc-border);
+      background: var(--mc-color); color: var(--mc-border);
+      align-self: flex-start;
+    }
+
+    /* Per-card color tokens */
+    .mc--sky    { --mc-color: var(--sky);    --mc-border: var(--border-sky);    --mc-pale: var(--sky-pale); }
+    .mc--pink   { --mc-color: var(--pink);   --mc-border: var(--border-pink);   --mc-pale: var(--pink-pale); }
+    .mc--orange { --mc-color: var(--orange); --mc-border: var(--border-orange); --mc-pale: var(--orange-pale); }
+    .mc--lime   { --mc-color: var(--lime);   --mc-border: var(--border-lime);   --mc-pale: var(--lime-pale); }
+    .mc--purple { --mc-color: var(--purple); --mc-border: var(--border-purple); --mc-pale: var(--purple-pale); }
+
+    /* ═══════════════════════════════════════
+       FLAVORS SECTION
+    ═══════════════════════════════════════ */
+    .flavors-section {
+      padding: clamp(4rem,8vw,6rem) 1.5rem;
+      background: var(--stripe);
+      position: relative;
+    }
+    .flavors-section::before {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(255,251,240,0.6); pointer-events: none;
+    }
+    .flavors-section .container { position: relative; z-index: 1; }
+    .flavors-section .section-eyebrow { color: var(--border-pink); }
+    .flavors-section .section-intro { margin: 0 auto; text-align: center; }
+    .flavors-section .section-title { text-align: center; }
+
+    .flavors-header { text-align: center; margin-bottom: 2.5rem; }
+
+    .special-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-ui); font-size: .82rem; font-weight: 700;
+      color: var(--yellow-dark); background: var(--yellow);
+      border: var(--bw) solid var(--border-yellow); border-radius: var(--r-pill);
+      padding: .35rem 1rem; box-shadow: 3px 3px 0 var(--border-yellow);
+      margin-bottom: 2rem;
+    }
+
+    .flavor-cloud {
+      display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .fp {
+      display: inline-flex; align-items: center;
+      font-family: var(--font-ui); font-size: .95rem; font-weight: 600;
+      color: var(--ink); padding: .4rem .9rem;
+      border: 2px solid transparent; border-radius: var(--r-sm);
+      cursor: pointer; background: var(--cream);
+      opacity: 0; scale: 0.8;
+      transition:
+        opacity 280ms var(--ease),
+        scale   280ms cubic-bezier(0.34, 1.56, 0.64, 1),
+        transform 180ms cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 150ms ease;
+    }
+    .fp.is-visible { opacity: 1; scale: 1; }
+    .fp:hover { transform: translate(-2px, -2px); }
+    .fp:focus-visible { outline: 3px solid var(--border-sky); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) { .fp { opacity: 1; scale: 1; transition: none; } }
+
+    .fp--r  { background: var(--red);    border-color: var(--border-red);    box-shadow: 3px 3px 0 var(--border-red); }
+    .fp--pk { background: var(--pink);   border-color: var(--border-pink);   box-shadow: 3px 3px 0 var(--border-pink); }
+    .fp--b  { background: var(--sky);    border-color: var(--border-sky);    box-shadow: 3px 3px 0 var(--border-sky); }
+    .fp--y  { background: var(--yellow); border-color: var(--border-yellow); box-shadow: 3px 3px 0 var(--border-yellow); }
+    .fp--o  { background: var(--orange); border-color: var(--border-orange); box-shadow: 3px 3px 0 var(--border-orange); }
+    .fp--g  { background: var(--lime);   border-color: var(--border-lime);   box-shadow: 3px 3px 0 var(--border-lime); }
+    .fp--p  { background: var(--purple); border-color: var(--border-purple); box-shadow: 3px 3px 0 var(--border-purple); }
+    .fp--c  {
+      background: linear-gradient(135deg,
+        var(--red) 0%, var(--orange) 20%, var(--yellow) 40%,
+        var(--lime) 60%, var(--sky) 80%, var(--purple) 100%);
+      border-color: rgba(90,128,144,0.5);
+      box-shadow: 3px 3px 0 rgba(90,128,144,0.6);
+    }
+    .fp--r:hover  { box-shadow: 5px 5px 0 var(--border-red); }
+    .fp--pk:hover { box-shadow: 5px 5px 0 var(--border-pink); }
+    .fp--b:hover  { box-shadow: 5px 5px 0 var(--border-sky); }
+    .fp--y:hover  { box-shadow: 5px 5px 0 var(--border-yellow); }
+    .fp--o:hover  { box-shadow: 5px 5px 0 var(--border-orange); }
+    .fp--g:hover  { box-shadow: 5px 5px 0 var(--border-lime); }
+    .fp--p:hover  { box-shadow: 5px 5px 0 var(--border-purple); }
+
+    .flavors-note {
+      text-align: center; font-family: var(--font-ui); font-size: 1rem;
+      color: var(--ink-soft); display: flex; align-items: center;
+      justify-content: center; gap: .5rem;
+    }
+    .flavors-note i { color: var(--border-sky); }
+    .flavors-note strong { color: var(--ink); }
+
+    /* ═══════════════════════════════════════
+       VIBE SECTION
+    ═══════════════════════════════════════ */
+    .vibe-section {
+      padding: clamp(4rem,8vw,6rem) 1.5rem;
+      background: transparent;
+    }
+    .vibe-section .section-eyebrow { color: var(--border-orange); }
+
+    .vibe-section .section-header { margin-bottom: 3rem; }
+
+    .vibe-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem; margin-bottom: 3rem;
+    }
+    @media (min-width: 640px) { .vibe-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .vibe-card {
+      background: var(--white);
+      border: var(--bw) solid var(--vc-border);
+      border-radius: var(--r-lg);
+      box-shadow: 5px 5px 0 var(--vc-border);
+      padding: 2rem 1.5rem;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 1rem;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 380ms var(--ease), transform 380ms var(--ease), box-shadow 150ms ease;
+    }
+    .vibe-card.is-visible { opacity: 1; transform: translateY(0); }
+    .vibe-card:hover { transform: translateY(-4px); box-shadow: 7px 7px 0 var(--vc-border); }
+    @media (prefers-reduced-motion: reduce) { .vibe-card { opacity: 1; transform: none; transition: box-shadow 150ms ease; } }
+
+    .vc--sky    { --vc-color: var(--sky);    --vc-border: var(--border-sky); }
+    .vc--orange { --vc-color: var(--orange); --vc-border: var(--border-orange); }
+    .vc--lime   { --vc-color: var(--lime);   --vc-border: var(--border-lime); }
+
+    .vibe-card__icon {
+      width: 3.5rem; height: 3.5rem;
+      border: var(--bw) solid var(--vc-border); border-radius: var(--r-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: var(--vc-color); color: var(--vc-border);
+      box-shadow: 4px 4px 0 var(--vc-border);
+    }
+    .vibe-card__title { font-family: var(--font-display); font-size: 1.3rem; color: var(--vc-border); line-height: 1.1; }
+    .vibe-card__desc  { font-family: var(--font-body); font-size: .95rem; color: var(--ink-soft); line-height: 1.6; }
+
+    /* Stats */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+    }
+    @media (min-width: 640px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .stat-card {
+      background: var(--white);
+      border: var(--bw) solid var(--sc-border);
+      border-radius: var(--r-lg);
+      box-shadow: -4px 4px 0 var(--sc-border);
+      padding: 1.75rem 1rem;
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      text-align: center;
+      border-top: 5px solid var(--sc-color);
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 380ms var(--ease), transform 380ms var(--ease);
+    }
+    .stat-card.is-visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { .stat-card { opacity: 1; transform: none; transition: none; } }
+
+    .stat-card__num   { font-family: var(--font-display); font-size: clamp(2rem,5vw,2.8rem); color: var(--ink); line-height: 1; }
+    .stat-card__label { font-family: var(--font-ui); font-size: .85rem; font-weight: 600; color: var(--ink-muted); letter-spacing: .5px; }
+
+    /* ═══════════════════════════════════════
+       HOURS SECTION
+    ═══════════════════════════════════════ */
+    .hours-section {
+      padding: clamp(4rem,8vw,6rem) 1.5rem;
+      background: transparent;
+    }
+    .hours-section .section-eyebrow { color: var(--border-lime); }
+
+    .hours-grid {
+      display: grid; grid-template-columns: 1fr; gap: 1.5rem;
+      margin-top: 3rem; align-items: start;
+    }
+    @media (min-width: 720px) { .hours-grid { grid-template-columns: 1fr 1fr; } }
+
+    .hours-card {
+      background: var(--white);
+      border: var(--bw) solid var(--hc-border, var(--border-sky));
+      border-radius: var(--r-lg);
+      box-shadow: 5px 5px 0 var(--hc-border, var(--border-sky));
+      overflow: hidden;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 380ms var(--ease), transform 380ms var(--ease);
+    }
+    .hours-card.is-visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { .hours-card { opacity: 1; transform: none; transition: none; } }
+
+    .hc--sky  { --hc-border: var(--border-sky);  --hc-color: var(--sky);  --hc-pale: var(--sky-pale); }
+    .hc--pink { --hc-border: var(--border-pink); --hc-color: var(--pink); --hc-pale: var(--pink-pale); }
+
+    .hours-card__head {
+      display: flex; align-items: center; gap: .85rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--hc-pale);
+      border-bottom: var(--bw) solid var(--hc-border);
+    }
+    .hours-card__icon {
+      width: 2.6rem; height: 2.6rem;
+      border: 2px solid var(--hc-border); border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+      background: var(--hc-color); color: var(--hc-border);
+      box-shadow: 3px 3px 0 var(--hc-border);
+    }
+    .hours-card__title { font-family: var(--font-display); font-size: 1.2rem; color: var(--hc-border); }
+
+    .hours-card__body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .season-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-ui); font-size: .82rem; font-weight: 700;
+      color: var(--yellow-dark); background: var(--yellow);
+      border: var(--bw) solid var(--border-yellow); border-radius: var(--r-pill);
+      padding: .35rem 1rem; box-shadow: 3px 3px 0 var(--border-yellow);
+      align-self: flex-start;
+    }
+
+    .hours-list {
+      display: flex; flex-direction: column;
+      border: 1.5px solid rgba(0,0,0,0.08); border-radius: var(--r-md); overflow: hidden;
+    }
+    .hours-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .65rem 1rem; gap: 1rem;
+      border-bottom: 1.5px solid rgba(0,0,0,0.06);
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row:nth-child(even) { background: rgba(0,0,0,0.025); }
+    .hours-row__day  { font-family: var(--font-ui); font-size: .95rem; font-weight: 600; color: var(--ink); }
+    .hours-row__time { font-family: var(--font-ui); font-size: .95rem; font-weight: 500; color: var(--ink-soft); text-align: right; }
+    .hours-row__time--closed { color: var(--border-pink); font-weight: 700; }
+    .hours-row--today { background: var(--sky-pale) !important; }
+    .hours-row--today .hours-row__day::after { content: ' — Today'; font-size: .72rem; font-weight: 700; color: var(--border-sky); }
+    .hours-note { font-family: var(--font-ui); font-size: .82rem; color: var(--ink-muted); display: flex; align-items: center; gap: .4rem; }
+    .hours-note i { color: var(--border-sky); }
+
+    /* Location info list */
+    .info-list { display: flex; flex-direction: column; gap: 1.1rem; }
+    .info-item { display: flex; align-items: flex-start; gap: .9rem; }
+    .info-item__icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 2.2rem; height: 2.2rem;
+      border: 2px solid var(--ii-border, var(--border-sky)); border-radius: var(--r-sm);
+      font-size: .95rem; flex-shrink: 0;
+      background: var(--ii-color, var(--sky)); color: var(--ii-border, var(--border-sky));
+      box-shadow: 3px 3px 0 var(--ii-border, var(--border-sky));
+    }
+    .info-item__text { font-family: var(--font-ui); font-size: .95rem; color: var(--ink-soft); line-height: 1.6; padding-top: .2rem; }
+    .info-item__text address { font-style: normal; }
+    .info-item__text a { color: var(--border-sky); font-weight: 600; text-decoration: none; }
+    .info-item__text a:hover { text-decoration: underline; }
+    .info-item__text strong { color: var(--ink); }
+    .ii--sky    { --ii-color: var(--sky);    --ii-border: var(--border-sky); }
+    .ii--lime   { --ii-color: var(--lime);   --ii-border: var(--border-lime); }
+    .ii--pink   { --ii-color: var(--pink);   --ii-border: var(--border-pink); }
+    .ii--yellow { --ii-color: var(--yellow); --ii-border: var(--border-yellow); }
+
+    /* ═══════════════════════════════════════
+       SHACK SECTION
+    ═══════════════════════════════════════ */
+    .shack-section {
+      padding: clamp(4rem,8vw,6rem) 1.5rem;
+      background: transparent;
+    }
+    .shack-section .container { position: relative; z-index: 1; }
+
+    .shack-inner {
+      display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: start;
+    }
+    @media (min-width: 768px) { .shack-inner { grid-template-columns: 1fr 1fr; } }
+
+    .shack__text {
+      display: flex; flex-direction: column; gap: 1.25rem;
+      opacity: 0; transform: translateX(-20px);
+      transition: opacity 450ms var(--ease), transform 450ms var(--ease);
+    }
+    .shack__text.is-visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .shack__text { opacity: 1; transform: none; transition: none; } }
+
+    .shack__eyebrow {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font-family: var(--font-ui); font-size: .75rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-muted);
+    }
+    .shack__eyebrow i { color: var(--border-sky); }
+    .shack__title { font-family: var(--font-display); font-size: clamp(2rem,5vw,3.2rem); color: var(--ink); line-height: 1.0; }
+    .shack__body  { font-family: var(--font-ui); font-size: 1.05rem; color: var(--ink-soft); line-height: 1.65; max-width: 480px; }
+
+    .shack__features { display: flex; flex-direction: column; gap: .75rem; list-style: none; }
+    .shack__feat {
+      display: flex; align-items: center; gap: .85rem;
+      font-family: var(--font-ui); font-size: 1rem; font-weight: 600; color: var(--ink);
+    }
+    .shack__feat-icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 2.4rem; height: 2.4rem;
+      border: 2px solid var(--sf-border); border-radius: var(--r-sm);
+      font-size: 1rem; flex-shrink: 0;
+      background: var(--sf-color); color: var(--sf-border);
+      box-shadow: 3px 3px 0 var(--sf-border);
+    }
+    .sf--lime   { --sf-color: var(--lime);   --sf-border: var(--border-lime); }
+    .sf--sky    { --sf-color: var(--sky);    --sf-border: var(--border-sky); }
+    .sf--yellow { --sf-color: var(--yellow); --sf-border: var(--border-yellow); }
+    .sf--orange { --sf-color: var(--orange); --sf-border: var(--border-orange); }
+
+    .shack__cards {
+      display: flex; flex-direction: column; gap: 1rem;
+      opacity: 0; transform: translateX(20px);
+      transition: opacity 450ms var(--ease) 150ms, transform 450ms var(--ease) 150ms;
+    }
+    .shack__cards.is-visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .shack__cards { opacity: 1; transform: none; transition: none; } }
+
+    .info-card {
+      background: var(--white);
+      border: var(--bw) solid var(--ic-border, var(--border-sky));
+      border-radius: var(--r-lg);
+      box-shadow: 5px 5px 0 var(--ic-border, var(--border-sky));
+      padding: 1.25rem 1.5rem;
+      display: flex; align-items: flex-start; gap: 1rem;
+    }
+    .info-card__icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 2.8rem; height: 2.8rem;
+      border: 2px solid var(--ic-border); border-radius: var(--r-sm);
+      font-size: 1.1rem; flex-shrink: 0;
+      background: var(--ic-color); color: var(--ic-border);
+      box-shadow: -3px 3px 0 var(--ic-border);
+    }
+    .ic--sky   { --ic-color: var(--sky);  --ic-border: var(--border-sky); }
+    .ic--lime  { --ic-color: var(--lime); --ic-border: var(--border-lime); }
+    .ic--pink  { --ic-color: var(--pink); --ic-border: var(--border-pink); }
+
+    .info-card__content { display: flex; flex-direction: column; gap: .25rem; }
+    .info-card__label   { font-family: var(--font-ui); font-size: .7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted); }
+    .info-card__value   { font-family: var(--font-ui); font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.5; font-style: normal; }
+    .info-card__value a { color: var(--border-sky); text-decoration: none; }
+    .info-card__value a:hover { text-decoration: underline; }
+    .info-card__sub     { font-family: var(--font-ui); font-size: .82rem; color: var(--ink-muted); line-height: 1.5; }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════ */
+    .site-footer {
+      background: var(--stripe);
+      padding: clamp(3rem,6vw,5rem) 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .site-footer::before {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(255,251,240,0.6); pointer-events: none;
+    }
+
+    .footer__card {
+      position: relative; z-index: 1;
+      background: var(--white);
+      border: var(--bw) solid var(--border-cream); border-radius: var(--r-lg);
+      box-shadow: 6px 6px 0 var(--border-cream);
+      padding: 2.5rem 2rem; width: 100%; max-width: 560px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 1.25rem; text-align: center;
+    }
+
+    .footer__logo {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-display); font-size: clamp(1.4rem,4vw,1.9rem);
+      color: var(--ink); line-height: 1;
+    }
+    .footer__logo i { color: var(--border-sky); }
+    .footer__motto {
+      font-family: var(--font-display); font-size: clamp(.9rem,2vw,1.1rem);
+      color: var(--orange-dark);
+    }
+
+    .footer__social-list {
+      display: flex; align-items: center; justify-content: center;
+      gap: .75rem; flex-wrap: wrap;
+    }
+    .footer__social-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-ui); font-size: .95rem; font-weight: 700;
+      text-decoration: none; color: var(--ink);
+      padding: .5rem 1.35rem; border-radius: var(--r-md);
+      border: var(--bw) solid transparent;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .footer__social-link:hover { transform: translate(-2px, -2px); }
+    .footer__social-link--fb { background: var(--sky);  border-color: var(--border-sky);  box-shadow: 4px 4px 0 var(--border-sky); }
+    .footer__social-link--ig { background: var(--pink); border-color: var(--border-pink); box-shadow: 4px 4px 0 var(--border-pink); }
+    .footer__social-link--fb:hover { box-shadow: 6px 6px 0 var(--border-sky); }
+    .footer__social-link--ig:hover { box-shadow: 6px 6px 0 var(--border-pink); }
+
+    .footer__divider { width: 100%; height: 2px; background: rgba(0,0,0,0.07); border: none; }
+
+    .footer__seasonal {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-ui); font-size: .88rem; font-weight: 700;
+      color: var(--border-sky); background: var(--sky-pale);
+      border: var(--bw) solid var(--border-sky); border-radius: var(--r-pill);
+      padding: .4rem 1.1rem; box-shadow: 3px 3px 0 var(--border-sky);
+    }
+
+    .footer__address { font-family: var(--font-ui); font-size: .88rem; color: var(--ink-muted); line-height: 1.8; font-style: normal; }
+    .footer__address a { color: var(--border-sky); font-weight: 600; text-decoration: none; }
+    .footer__address a:hover { text-decoration: underline; }
+
+    .footer__credit { font-family: var(--font-ui); font-size: .8rem; color: var(--ink-muted); }
+    .footer__credit a { color: var(--border-sky); font-weight: 600; text-decoration: none; }
+    .footer__credit a:hover { text-decoration: underline; }
+
+    /* ═══════════════════════════════════════
+       REDUCED MOTION
+    ═══════════════════════════════════════ */
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track { animation: none; }
+      .scroll-top { transition: opacity 150ms ease; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <svg viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="cursor-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stop-color="#F9BADD" />
+          <stop offset="40%"  stop-color="#FEF0A0" />
+          <stop offset="100%" stop-color="#A8E6F0" />
+        </linearGradient>
+      </defs>
+      <path d="M4 2 L4 22 L9 17 L13 26 L16 25 L12 16 L19 16 Z"
+        fill="url(#cursor-gradient)"
+        stroke="#5A8090"
+        stroke-width="1"
+        stroke-linejoin="round"
+        stroke-linecap="round"
+      />
+    </svg>
+  </div>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ══════════════════════════════
+       HEADER
+  ══════════════════════════════ -->
+  <header class="site-header" role="banner">
+    <nav class="nav-bar" aria-label="Main navigation">
+
+      <a href="#hero" class="nav-logo" aria-label="Sweet P's Snowball Shack — return to top">
+        <span class="nav-logo__pill">
+          <i class="fa-solid fa-ice-cream" aria-hidden="true"></i>
+          Sweet P's Snowball Shack
+        </span>
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="#menu"><i class="fa-solid fa-ice-cream" aria-hidden="true"></i> Menu</a></li>
+        <li><a href="#flavors"><i class="fa-solid fa-swatchbook" aria-hidden="true"></i> Flavors</a></li>
+        <li><a href="#vibe"><i class="fa-solid fa-baseball" aria-hidden="true"></i> Our Vibe</a></li>
+        <li><a href="#hours"><i class="fa-regular fa-clock" aria-hidden="true"></i> Hours</a></li>
+        <li><a href="#site-footer"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Find Us</a></li>
+      </ul>
+
+      <button id="nav-toggle" class="nav-toggle" type="button"
+        aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu">
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+      </button>
+
+    </nav>
+  </header>
+
+  <!-- ══════════════════════════════
+       MOBILE MENU
+  ══════════════════════════════ -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu__inner">
+
+      <!-- Left: nav links -->
+      <ul class="mobile-menu__links" role="list">
+        <li><a href="#menu"        class="mobile-menu__link mobile-menu__link--sky">   <i class="fa-solid fa-ice-cream mobile-menu__icon"     aria-hidden="true"></i> Menu        <span class="mobile-menu__tag">Treats</span></a></li>
+        <li><a href="#flavors"     class="mobile-menu__link mobile-menu__link--pink">  <i class="fa-solid fa-swatchbook mobile-menu__icon"    aria-hidden="true"></i> Flavors     <span class="mobile-menu__tag">80+ Names</span></a></li>
+        <li><a href="#vibe"        class="mobile-menu__link mobile-menu__link--orange"><i class="fa-solid fa-baseball mobile-menu__icon"      aria-hidden="true"></i> Our Vibe    <span class="mobile-menu__tag">The Shack</span></a></li>
+        <li><a href="#hours"       class="mobile-menu__link mobile-menu__link--lime">  <i class="fa-regular fa-clock mobile-menu__icon"       aria-hidden="true"></i> Hours       <span class="mobile-menu__tag">Tue–Sat</span></a></li>
+        <li><a href="#site-footer" class="mobile-menu__link mobile-menu__link--purple"><i class="fa-solid fa-location-dot mobile-menu__icon" aria-hidden="true"></i> Find Us     <span class="mobile-menu__tag">Clinton, TN</span></a></li>
+      </ul>
+
+      <!-- Right: info panel -->
+      <div class="mobile-menu__panel" aria-label="Contact and hours information">
+        <p class="mobile-menu__panel-title">
+          <i class="fa-solid fa-ice-cream" aria-hidden="true"></i>
+          Sweet P's
+        </p>
+        <span class="mobile-menu__season">
+          <i class="fa-solid fa-sun" aria-hidden="true"></i>
+          Open Spring through Summer
+        </span>
+        <div class="mobile-menu__info-item mobile-menu__info-item--hours">
+          <i class="fa-regular fa-clock" aria-hidden="true"></i>
+          <span>Tue–Sat &nbsp;·&nbsp; 2:00–9:00 PM</span>
+        </div>
+        <div class="mobile-menu__info-item mobile-menu__info-item--addr">
+          <i class="fa-solid fa-map-pin" aria-hidden="true"></i>
+          <address style="font-style:normal;">930B N Charles G Seivers Blvd<br>Clinton, TN 37716</address>
+        </div>
+        <div class="mobile-menu__info-item mobile-menu__info-item--phone">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i>
+          <a href="tel:+18657403227">(865) 740-3227</a>
+        </div>
+        <div class="mobile-menu__social">
+          <a href="https://www.facebook.com/SweetPsSnowballShack/" target="_blank" rel="noopener noreferrer"
+            class="mobile-menu__social-btn mobile-menu__social-btn--fb"
+            aria-label="Sweet P's on Facebook (opens in new tab)">
+            <i class="fa-brands fa-facebook" aria-hidden="true"></i>
+          </a>
+          <a href="https://www.instagram.com/sweetps_snowballshack/" target="_blank" rel="noopener noreferrer"
+            class="mobile-menu__social-btn mobile-menu__social-btn--ig"
+            aria-label="Sweet P's on Instagram (opens in new tab)">
+            <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       MAIN
+  ══════════════════════════════ -->
+  <main id="main-content">
+
+    <!-- ── HERO ── -->
+    <section id="hero" class="hero" aria-labelledby="hero-title">
+      <div class="hero__body">
+
+        <!-- Left: headline + actions -->
+        <div class="hero__left">
+          <span class="hero__eyebrow">
+            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+            Clinton, Tennessee
+          </span>
+          <h1 class="hero__title" id="hero-title">
+            <span class="hero__title-line1">Sweet P's</span>
+            <span class="hero__title-line2">Snowball Shack</span>
+          </h1>
+          <p class="hero__motto"><em>"Think Sweet, Be Sweet"</em> ✨</p>
+          <div class="hero__actions">
+            <a href="#menu"  class="btn btn--sky"><i class="fa-solid fa-ice-cream" aria-hidden="true"></i> See the Menu</a>
+            <a href="#hours" class="btn btn--pink"><i class="fa-regular fa-clock" aria-hidden="true"></i> Hours &amp; Location</a>
+          </div>
+        </div>
+
+        <!-- Right: menu item pills -->
+        <div class="hero__right" role="list" aria-label="Menu highlights">
+          <div class="hero__menu-pill hmp--sky" role="listitem">
+            <span class="hero__menu-pill-icon" aria-hidden="true"><i class="fa-solid fa-snowflake"></i></span>
+            <span class="hero__menu-pill-text">
+              <span class="hero__menu-pill-name">Snowballs &amp; Shaved Ice</span>
+              <span class="hero__menu-pill-sub">Our signature — ask for condensed milk on top</span>
+            </span>
+            <i class="fa-solid fa-chevron-right hero__menu-pill-arrow" aria-hidden="true"></i>
+          </div>
+          <div class="hero__menu-pill hmp--pink" role="listitem">
+            <span class="hero__menu-pill-icon" aria-hidden="true"><i class="fa-solid fa-mug-hot"></i></span>
+            <span class="hero__menu-pill-text">
+              <span class="hero__menu-pill-name">Hand-Dipped Milkshakes</span>
+              <span class="hero__menu-pill-sub">Strawberry Cheesecake has a cult following</span>
+            </span>
+            <i class="fa-solid fa-chevron-right hero__menu-pill-arrow" aria-hidden="true"></i>
+          </div>
+          <div class="hero__menu-pill hmp--orange" role="listitem">
+            <span class="hero__menu-pill-icon" aria-hidden="true"><i class="fa-solid fa-ice-cream"></i></span>
+            <span class="hero__menu-pill-text">
+              <span class="hero__menu-pill-name">Soft Serve Ice Cream</span>
+              <span class="hero__menu-pill-sub">Cones, cups, twists</span>
+            </span>
+            <i class="fa-solid fa-chevron-right hero__menu-pill-arrow" aria-hidden="true"></i>
+          </div>
+          <div class="hero__menu-pill hmp--lime" role="listitem">
+            <span class="hero__menu-pill-icon" aria-hidden="true"><i class="fa-solid fa-droplet"></i></span>
+            <span class="hero__menu-pill-text">
+              <span class="hero__menu-pill-name">Slushies &amp; Smoothies</span>
+              <span class="hero__menu-pill-sub">Ice-cold, multiple flavors</span>
+            </span>
+            <i class="fa-solid fa-chevron-right hero__menu-pill-arrow" aria-hidden="true"></i>
+          </div>
+          <div class="hero__menu-pill hmp--purple" role="listitem">
+            <span class="hero__menu-pill-icon" aria-hidden="true"><i class="fa-solid fa-star"></i></span>
+            <span class="hero__menu-pill-text">
+              <span class="hero__menu-pill-name">Banana Splits</span>
+              <span class="hero__menu-pill-sub">Loaded your way — hold what you don't like</span>
+            </span>
+            <i class="fa-solid fa-chevron-right hero__menu-pill-arrow" aria-hidden="true"></i>
+          </div>
+          <div class="hero__menu-pill hmp--red" role="listitem">
+            <span class="hero__menu-pill-icon" aria-hidden="true"><i class="fa-solid fa-trophy"></i></span>
+            <span class="hero__menu-pill-text">
+              <span class="hero__menu-pill-name">Ice Cream Nachos</span>
+              <span class="hero__menu-pill-sub">Yes, they're real. Yes, you want them.</span>
+            </span>
+            <i class="fa-solid fa-chevron-right hero__menu-pill-arrow" aria-hidden="true"></i>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /#hero -->
+
+
+    <!-- ── MENU ── -->
+    <section id="menu" class="menu-section" aria-labelledby="menu-heading">
+      <div class="container">
+        <header>
+          <p class="section-eyebrow"><i class="fa-solid fa-ice-cream" aria-hidden="true"></i> What We Serve</p>
+          <h2 id="menu-heading" class="section-title">Something Cold for Everyone</h2>
+          <p class="section-intro">All the good stuff, made fresh at the window. Ask for our full flavor sheet when you pull up — there's way more than fits on a sign!</p>
+        </header>
+        <ul class="menu-grid" role="list" aria-label="Menu items">
+
+          <li class="menu-card mc--sky">
+            <article aria-labelledby="card-snowballs">
+              <div class="menu-card__head">
+                <span class="menu-card__icon" aria-hidden="true"><i class="fa-solid fa-snowflake"></i></span>
+                <h3 id="card-snowballs" class="menu-card__title">Snowballs &amp; Shaved Ice</h3>
+              </div>
+              <div class="menu-card__body">
+                <p class="menu-card__desc">Our signature. Heaps of finely shaved ice drenched in bold, bright syrups. Ask for condensed milk on top — an absolute game changer. Dozens of specialty named flavors including the legendary Rainbow.</p>
+                <span class="menu-card__chip"><i class="fa-solid fa-star" aria-hidden="true"></i> Fan Favorite</span>
+              </div>
+            </article>
+          </li>
+
+          <li class="menu-card mc--pink">
+            <article aria-labelledby="card-shakes">
+              <div class="menu-card__head">
+                <span class="menu-card__icon" aria-hidden="true"><i class="fa-solid fa-mug-hot"></i></span>
+                <h3 id="card-shakes" class="menu-card__title">Hand-Dipped Milkshakes</h3>
+              </div>
+              <div class="menu-card__body">
+                <p class="menu-card__desc">Thick, creamy, made to order. The Strawberry Cheesecake shake has a full-on cult following in Anderson County. Worth every minute of the wait — and there might be one.</p>
+                <span class="menu-card__chip"><i class="fa-solid fa-heart" aria-hidden="true"></i> Must Try</span>
+              </div>
+            </article>
+          </li>
+
+          <li class="menu-card mc--orange">
+            <article aria-labelledby="card-softserve">
+              <div class="menu-card__head">
+                <span class="menu-card__icon" aria-hidden="true"><i class="fa-solid fa-ice-cream"></i></span>
+                <h3 id="card-softserve" class="menu-card__title">Soft Serve Ice Cream</h3>
+              </div>
+              <div class="menu-card__body">
+                <p class="menu-card__desc">Classic cones, cups, and twists made with quality local ice cream. Simple, cold, and perfectly satisfying after a long hot Tennessee afternoon. Kids absolutely love it.</p>
+                <span class="menu-card__chip"><i class="fa-solid fa-certificate" aria-hidden="true"></i> Classic</span>
+              </div>
+            </article>
+          </li>
+
+          <li class="menu-card mc--sky">
+            <article aria-labelledby="card-slushies">
+              <div class="menu-card__head">
+                <span class="menu-card__icon" aria-hidden="true"><i class="fa-solid fa-droplet"></i></span>
+                <h3 id="card-slushies" class="menu-card__title">Slushies</h3>
+              </div>
+              <div class="menu-card__body">
+                <p class="menu-card__desc">Ice-cold and impossibly refreshing. The perfect cool-down after the pool, the lake, or surviving a brutal East Tennessee summer afternoon. Multiple flavors, zero regrets.</p>
+                <span class="menu-card__chip"><i class="fa-solid fa-snowflake" aria-hidden="true"></i> Ice Cold</span>
+              </div>
+            </article>
+          </li>
+
+          <li class="menu-card mc--lime">
+            <article aria-labelledby="card-smoothies">
+              <div class="menu-card__head">
+                <span class="menu-card__icon" aria-hidden="true"><i class="fa-solid fa-leaf"></i></span>
+                <h3 id="card-smoothies" class="menu-card__title">Smoothies</h3>
+              </div>
+              <div class="menu-card__body">
+                <p class="menu-card__desc">Blended fresh and fruity. Cold, delicious, and slightly more virtuous than a milkshake. You're still getting a snowball too — don't even pretend otherwise.</p>
+                <span class="menu-card__chip"><i class="fa-solid fa-apple-whole" aria-hidden="true"></i> Fresh &amp; Fruity</span>
+              </div>
+            </article>
+          </li>
+
+          <li class="menu-card mc--purple">
+            <article aria-labelledby="card-splits">
+              <div class="menu-card__head">
+                <span class="menu-card__icon" aria-hidden="true"><i class="fa-solid fa-star"></i></span>
+                <h3 id="card-splits" class="menu-card__title">Banana Splits &amp; Ice Cream Nachos</h3>
+              </div>
+              <div class="menu-card__body">
+                <p class="menu-card__desc">Loaded banana splits your way — hold what you don't like, double what you love. Plus our famous ice cream nachos. Yes, they're a real thing. No, you won't regret it.</p>
+                <span class="menu-card__chip"><i class="fa-solid fa-trophy" aria-hidden="true"></i> Only at Sweet P's</span>
+              </div>
+            </article>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- ── FLAVORS ── -->
+    <section id="flavors" class="flavors-section" aria-labelledby="flavors-heading">
+      <div class="container">
+        <div class="flavors-header">
+          <p class="section-eyebrow" style="justify-content:center;"><i class="fa-solid fa-swatchbook" aria-hidden="true"></i> Special Flavors — 50¢ Extra</p>
+          <h2 id="flavors-heading" class="section-title">The Flavor Board</h2>
+          <p class="section-intro">These are just the special flavors — and they all go HARD. Hover or tap to see them pop. Ask at the window for the full list!</p>
+          <div style="margin-top:1.5rem;">
+            <span class="special-badge">
+              <i class="fa-solid fa-star" aria-hidden="true"></i>
+              Special Flavors — 50 Cents Extra
+              <i class="fa-solid fa-star" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+        <ul class="flavor-cloud" role="list" aria-label="Special flavor names">
+          <li><button class="fp fp--g"  type="button">Green Goblin</button></li>
+          <li><button class="fp fp--pk" type="button">Wonderwoman</button></li>
+          <li><button class="fp fp--b"  type="button">Hannah Montana</button></li>
+          <li><button class="fp fp--r"  type="button">Boston Redsocks</button></li>
+          <li><button class="fp fp--y"  type="button">Golden Sunrise</button></li>
+          <li><button class="fp fp--r"  type="button">Daredevil</button></li>
+          <li><button class="fp fp--pk" type="button">Pink Panther</button></li>
+          <li><button class="fp fp--o"  type="button">Chocolate</button></li>
+          <li><button class="fp fp--p"  type="button">Tinkerbell</button></li>
+          <li><button class="fp fp--c"  type="button">Rainbow</button></li>
+          <li><button class="fp fp--b"  type="button">Captain America</button></li>
+          <li><button class="fp fp--b"  type="button">Dallas Cowboys</button></li>
+          <li><button class="fp fp--o"  type="button">Sunshine Splash</button></li>
+          <li><button class="fp fp--pk" type="button">Sweet Tart</button></li>
+          <li><button class="fp fp--r"  type="button">Strawberry Wonderland</button></li>
+          <li><button class="fp fp--y"  type="button">Yellow Jacket</button></li>
+          <li><button class="fp fp--g"  type="button">Strawberry Limeade</button></li>
+          <li><button class="fp fp--g"  type="button">Cherry Limeade</button></li>
+          <li><button class="fp fp--c"  type="button">Rainbow Sherbet</button></li>
+          <li><button class="fp fp--g"  type="button">Shaggy</button></li>
+          <li><button class="fp fp--g"  type="button">Scooby Doo</button></li>
+          <li><button class="fp fp--o"  type="button">Nemo</button></li>
+          <li><button class="fp fp--g"  type="button">Mint Ice Cream</button></li>
+          <li><button class="fp fp--y"  type="button">Homemade Snowcream</button></li>
+          <li><button class="fp fp--g"  type="button">Dinosaur</button></li>
+          <li><button class="fp fp--p"  type="button">Batman</button></li>
+          <li><button class="fp fp--y"  type="button">Spongebob</button></li>
+          <li><button class="fp fp--p"  type="button">Joker</button></li>
+          <li><button class="fp fp--p"  type="button">Twilight</button></li>
+          <li><button class="fp fp--pk" type="button">Patrick</button></li>
+          <li><button class="fp fp--r"  type="button">Ironman</button></li>
+          <li><button class="fp fp--o"  type="button">UT Vols</button></li>
+          <li><button class="fp fp--y"  type="button">Wolverine</button></li>
+          <li><button class="fp fp--pk" type="button">Barbie</button></li>
+          <li><button class="fp fp--y"  type="button">New Orleans Saints</button></li>
+          <li><button class="fp fp--p"  type="button">Gambit</button></li>
+          <li><button class="fp fp--c"  type="button">Storm</button></li>
+          <li><button class="fp fp--b"  type="button">Blues Clue</button></li>
+          <li><button class="fp fp--o"  type="button">Peach Tart</button></li>
+          <li><button class="fp fp--pk" type="button">Starburst</button></li>
+          <li><button class="fp fp--r"  type="button">Robin</button></li>
+          <li><button class="fp fp--g"  type="button">Riddler</button></li>
+          <li><button class="fp fp--o"  type="button">Diego</button></li>
+          <li><button class="fp fp--o"  type="button">Rootbeer Float</button></li>
+          <li><button class="fp fp--p"  type="button">Daphne</button></li>
+          <li><button class="fp fp--g"  type="button">Mystery Machine</button></li>
+          <li><button class="fp fp--g"  type="button">Squirt</button></li>
+          <li><button class="fp fp--y"  type="button">Butterfinger</button></li>
+          <li><button class="fp fp--r"  type="button">Spiderman</button></li>
+          <li><button class="fp fp--b"  type="button">Superman</button></li>
+          <li><button class="fp fp--p"  type="button">Magneto</button></li>
+          <li><button class="fp fp--pk" type="button">Electra</button></li>
+          <li><button class="fp fp--r"  type="button">Underdog</button></li>
+          <li><button class="fp fp--o"  type="button">Cougars</button></li>
+          <li><button class="fp fp--r"  type="button">Flash</button></li>
+          <li><button class="fp fp--g"  type="button">Hulk</button></li>
+          <li><button class="fp fp--g"  type="button">Yoda</button></li>
+          <li><button class="fp fp--y"  type="button">Zinger</button></li>
+          <li><button class="fp fp--pk" type="button">Kidsicle</button></li>
+          <li><button class="fp fp--g"  type="button">Melonball</button></li>
+          <li><button class="fp fp--y"  type="button">Bumble Bee</button></li>
+          <li><button class="fp fp--pk" type="button">Fun on the Beach</button></li>
+          <li><button class="fp fp--y"  type="button">Sandy</button></li>
+          <li><button class="fp fp--pk" type="button">I Carly</button></li>
+          <li><button class="fp fp--p"  type="button">Dora</button></li>
+          <li><button class="fp fp--o"  type="button">Fred</button></li>
+          <li><button class="fp fp--g"  type="button">Camo</button></li>
+          <li><button class="fp fp--c"  type="button">Tsunami</button></li>
+          <li><button class="fp fp--p"  type="button">Mardi Gras King Cake</button></li>
+          <li><button class="fp fp--r"  type="button">Cherry Cola</button></li>
+        </ul>
+        <p class="flavors-note">
+          <i class="fa-solid fa-ice-cream" aria-hidden="true"></i>
+          Ask at the window for our <strong>complete flavor sheet</strong> — this isn't even all of them!
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ── VIBE ── -->
+    <section id="vibe" class="vibe-section" aria-labelledby="vibe-heading">
+      <div class="container">
+        <header class="section-header" style="text-align:center; margin-bottom:3rem;">
+          <p class="section-eyebrow" style="justify-content:center;"><i class="fa-solid fa-sun" aria-hidden="true"></i> The Sweet P's Experience</p>
+          <h2 id="vibe-heading" class="section-title">Clinton's Official Summer Tradition</h2>
+          <p class="section-intro" style="margin:0 auto;">After the game. After the pool. After a long week. When East Tennessee heat peaks, everyone ends up at the blue shack on Seivers Blvd.</p>
+        </header>
+
+        <ul class="vibe-grid" role="list">
+          <li class="vibe-card vc--sky">
+            <div class="vibe-card__icon" aria-hidden="true"><i class="fa-solid fa-baseball"></i></div>
+            <h3 class="vibe-card__title">Post-Game Ritual</h3>
+            <p class="vibe-card__desc">Little League just ended. Both teams know where the next stop is. Sweet P's — obviously.</p>
+          </li>
+          <li class="vibe-card vc--orange">
+            <div class="vibe-card__icon" aria-hidden="true"><i class="fa-solid fa-person-swimming"></i></div>
+            <h3 class="vibe-card__title">After the Pool</h3>
+            <p class="vibe-card__desc">Salty, sunburned, and absolutely ready for a snowball. Shaded picnic tables and big umbrellas — perfect cool-down spot.</p>
+          </li>
+          <li class="vibe-card vc--lime">
+            <div class="vibe-card__icon" aria-hidden="true"><i class="fa-solid fa-sun"></i></div>
+            <h3 class="vibe-card__title">Golden Hour</h3>
+            <p class="vibe-card__desc">The Open sign glowing, the lot filling up, kids running in the grass. Pure East Tennessee summer magic.</p>
+          </li>
+        </ul>
+
+        <ul class="stats-grid" role="list" aria-label="Sweet P's by the numbers">
+          <li class="stat-card" style="--sc-color:var(--sky);    --sc-border:var(--border-sky);">   <span class="stat-card__num">80+</span><span class="stat-card__label">Named Flavors</span></li>
+          <li class="stat-card" style="--sc-color:var(--pink);   --sc-border:var(--border-pink);">  <span class="stat-card__num">★ 4.4</span><span class="stat-card__label">Community Rating</span></li>
+          <li class="stat-card" style="--sc-color:var(--lime);   --sc-border:var(--border-lime);">  <span class="stat-card__num">6</span><span class="stat-card__label">Days a Week</span></li>
+          <li class="stat-card" style="--sc-color:var(--purple); --sc-border:var(--border-purple);"><span class="stat-card__num">∞</span><span class="stat-card__label">Summer Memories</span></li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- ── HOURS ── -->
+    <section id="hours" class="hours-section" aria-labelledby="hours-heading">
+      <div class="container">
+        <header style="text-align:center; margin-bottom:3rem;">
+          <p class="section-eyebrow" style="justify-content:center;"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Find Us</p>
+          <h2 id="hours-heading" class="section-title">Hours &amp; Location</h2>
+          <p class="section-intro" style="margin:0 auto;">We're seasonal — and we think that's part of what makes us special. Follow us on Facebook for opening day announcements every spring!</p>
+        </header>
+        <div class="hours-grid">
+
+          <!-- Hours -->
+          <div class="hours-card hc--sky" aria-labelledby="hours-card-title">
+            <div class="hours-card__head">
+              <span class="hours-card__icon" aria-hidden="true"><i class="fa-regular fa-clock"></i></span>
+              <h3 id="hours-card-title" class="hours-card__title">Summer Hours</h3>
+            </div>
+            <div class="hours-card__body">
+              <span class="season-badge"><i class="fa-solid fa-sun" aria-hidden="true"></i> Open Spring through Summer <i class="fa-solid fa-sun" aria-hidden="true"></i></span>
+              <dl class="hours-list">
+                <div class="hours-row" data-day="1"><dt class="hours-row__day">Monday</dt>   <dd class="hours-row__time hours-row__time--closed">Closed</dd></div>
+                <div class="hours-row" data-day="2"><dt class="hours-row__day">Tuesday</dt>  <dd class="hours-row__time">2:00 PM – 9:00 PM</dd></div>
+                <div class="hours-row" data-day="3"><dt class="hours-row__day">Wednesday</dt><dd class="hours-row__time">2:00 PM – 9:00 PM</dd></div>
+                <div class="hours-row" data-day="4"><dt class="hours-row__day">Thursday</dt> <dd class="hours-row__time">2:00 PM – 9:00 PM</dd></div>
+                <div class="hours-row" data-day="5"><dt class="hours-row__day">Friday</dt>   <dd class="hours-row__time">2:00 PM – 9:00 PM</dd></div>
+                <div class="hours-row" data-day="6"><dt class="hours-row__day">Saturday</dt> <dd class="hours-row__time">2:00 PM – 9:00 PM</dd></div>
+                <div class="hours-row" data-day="0"><dt class="hours-row__day">Sunday</dt>   <dd class="hours-row__time hours-row__time--closed">Closed</dd></div>
+              </dl>
+              <p class="hours-note"><i class="fa-brands fa-facebook" aria-hidden="true"></i> Hours may vary — watch Facebook for live updates!</p>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="hours-card hc--pink" aria-labelledby="location-card-title">
+            <div class="hours-card__head">
+              <span class="hours-card__icon" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></span>
+              <h3 id="location-card-title" class="hours-card__title">Find the Blue Shack</h3>
+            </div>
+            <div class="hours-card__body">
+              <ul class="info-list" role="list">
+                <li class="info-item">
+                  <span class="info-item__icon ii--sky" aria-hidden="true"><i class="fa-solid fa-map-pin"></i></span>
+                  <address class="info-item__text">930B N Charles G Seivers Blvd<br>Clinton, TN 37716</address>
+                </li>
+                <li class="info-item">
+                  <span class="info-item__icon ii--lime" aria-hidden="true"><i class="fa-solid fa-phone"></i></span>
+                  <span class="info-item__text"><a href="tel:+18657403227">(865) 740-3227</a></span>
+                </li>
+                <li class="info-item">
+                  <span class="info-item__icon ii--sky" aria-hidden="true"><i class="fa-brands fa-facebook"></i></span>
+                  <span class="info-item__text"><a href="https://www.facebook.com/SweetPsSnowballShack/" target="_blank" rel="noopener noreferrer">Follow on Facebook<span class="sr-only"> (opens in new tab)</span></a> — opening day &amp; seasonal updates</span>
+                </li>
+                <li class="info-item">
+                  <span class="info-item__icon ii--pink" aria-hidden="true"><i class="fa-brands fa-instagram"></i></span>
+                  <span class="info-item__text"><a href="https://www.instagram.com/sweetps_snowballshack/" target="_blank" rel="noopener noreferrer">@sweetps_snowballshack<span class="sr-only"> (opens in new tab)</span></a></span>
+                </li>
+                <li class="info-item">
+                  <span class="info-item__icon ii--yellow" aria-hidden="true"><i class="fa-solid fa-eye"></i></span>
+                  <span class="info-item__text">Look for the <strong>bright blue shack</strong> — trust us, you'll see it.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── SHACK ── -->
+    <section id="shack" class="shack-section" aria-labelledby="shack-heading">
+      <div class="container">
+        <div class="shack-inner">
+
+          <div class="shack__text">
+            <p class="shack__eyebrow"><i class="fa-solid fa-map-pin" aria-hidden="true"></i> 930B N Charles G Seivers Blvd</p>
+            <h2 id="shack-heading" class="shack__title">Look for the<br>Bright Blue Shack</h2>
+            <p class="shack__body">You genuinely cannot miss it. That iconic blue, the big red shade sail, rows of wood picnic tables, the Snowballs flag out front — it's the landmark of Clinton summers.</p>
+            <ul class="shack__features" aria-label="Shack features">
+              <li class="shack__feat"><span class="shack__feat-icon sf--lime"   aria-hidden="true"><i class="fa-solid fa-table-picnic"></i></span> Shaded outdoor picnic seating</li>
+              <li class="shack__feat"><span class="shack__feat-icon sf--sky"    aria-hidden="true"><i class="fa-solid fa-window-maximize"></i></span> Walk-up order &amp; pick-up windows</li>
+              <li class="shack__feat"><span class="shack__feat-icon sf--yellow" aria-hidden="true"><i class="fa-solid fa-square-parking"></i></span> Plenty of parking — gravel lot</li>
+              <li class="shack__feat"><span class="shack__feat-icon sf--orange" aria-hidden="true"><i class="fa-solid fa-sun"></i></span> Open spring through summer</li>
+            </ul>
+          </div>
+
+          <div class="shack__cards">
+            <div class="info-card ic--sky">
+              <span class="info-card__icon" aria-hidden="true"><i class="fa-solid fa-map-pin"></i></span>
+              <div class="info-card__content">
+                <span class="info-card__label">Address</span>
+                <address class="info-card__value">930B N Charles G Seivers Blvd<br>Clinton, TN 37716</address>
+              </div>
+            </div>
+            <div class="info-card ic--lime">
+              <span class="info-card__icon" aria-hidden="true"><i class="fa-solid fa-phone"></i></span>
+              <div class="info-card__content">
+                <span class="info-card__label">Phone</span>
+                <p class="info-card__value"><a href="tel:+18657403227">(865) 740-3227</a></p>
+              </div>
+            </div>
+            <div class="info-card ic--pink">
+              <span class="info-card__icon" aria-hidden="true"><i class="fa-solid fa-share-nodes"></i></span>
+              <div class="info-card__content">
+                <span class="info-card__label">Stay in the Loop</span>
+                <p class="info-card__value">
+                  <a href="https://www.facebook.com/SweetPsSnowballShack/" target="_blank" rel="noopener noreferrer">Facebook<span class="sr-only"> (opens in new tab)</span></a>
+                  &amp;
+                  <a href="https://www.instagram.com/sweetps_snowballshack/" target="_blank" rel="noopener noreferrer">Instagram<span class="sr-only"> (opens in new tab)</span></a>
+                </p>
+                <p class="info-card__sub">Opening day &amp; seasonal updates</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ══════════════════════════════
+       FOOTER
+  ══════════════════════════════ -->
+  <footer id="site-footer" class="site-footer">
+    <div class="footer__card">
+      <p class="footer__logo"><i class="fa-solid fa-ice-cream" aria-hidden="true"></i> Sweet P's Snowball Shack</p>
+      <p class="footer__motto"><em>"Think Sweet, Be Sweet"</em> ✨</p>
+      <nav aria-label="Social media links">
+        <ul class="footer__social-list" role="list">
+          <li><a href="https://www.facebook.com/SweetPsSnowballShack/" class="footer__social-link footer__social-link--fb" target="_blank" rel="noopener noreferrer" aria-label="Sweet P's on Facebook (opens in new tab)"><i class="fa-brands fa-facebook" aria-hidden="true"></i> Facebook</a></li>
+          <li><a href="https://www.instagram.com/sweetps_snowballshack/" class="footer__social-link footer__social-link--ig" target="_blank" rel="noopener noreferrer" aria-label="Sweet P's on Instagram (opens in new tab)"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        </ul>
+      </nav>
+      <p class="footer__seasonal"><i class="fa-solid fa-snowflake" aria-hidden="true"></i> Closed for the Season — See You in Spring 2026! <i class="fa-solid fa-snowflake" aria-hidden="true"></i></p>
+      <hr class="footer__divider">
+      <address class="footer__address">930B N Charles G Seivers Blvd · Clinton, TN 37716 · <a href="tel:+18657403227">(865) 740-3227</a></address>
+      <p class="footer__credit">Site concept &amp; design by <a href="https://hcweblabs.com" target="_blank" rel="noopener noreferrer">HC Web Labs<span class="sr-only"> (opens in new tab)</span></a></p>
+    </div>
+  </footer>
+
+  <!-- Scroll to top -->
+  <button id="scroll-top" class="scroll-top" type="button" aria-label="Scroll to top" title="Back to top">
+    <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
+  </button>
+
+  <!-- ══════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════ -->
+  <script>
+  'use strict';
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    const motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ── Mobile menu ── */
+    const toggle = document.getElementById('nav-toggle');
+    const menu   = document.getElementById('mobile-menu');
+
+    if (toggle && menu) {
+      const toggleIcon = toggle.querySelector('i');
+      const openMenu  = () => {
+        menu.classList.add('is-open');
+        menu.removeAttribute('aria-hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close navigation menu');
+        toggleIcon.className = 'fa-solid fa-xmark';
+      };
+      const closeMenu = () => {
+        menu.classList.remove('is-open');
+        menu.setAttribute('aria-hidden', 'true');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open navigation menu');
+        toggleIcon.className = 'fa-solid fa-bars';
+      };
+
+      toggle.addEventListener('click', () => menu.classList.contains('is-open') ? closeMenu() : openMenu());
+      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', ({ key }) => { if (key === 'Escape' && menu.classList.contains('is-open')) closeMenu(); });
+      window.matchMedia('(min-width: 768px)').addEventListener('change', mq => { if (mq.matches) closeMenu(); });
+    }
+
+    /* ── Scroll-driven nav stripe reveal ── */
+    const hero  = document.getElementById('hero');
+    const docEl = document.documentElement;
+    if (hero) {
+      const clamp = (v, mn, mx) => Math.min(Math.max(v, mn), mx);
+      const updateNav = () => docEl.style.setProperty('--nav-scrim', (1 - clamp(window.scrollY / hero.offsetHeight, 0, 1)).toFixed(3));
+      window.addEventListener('scroll', updateNav, { passive: true });
+      updateNav();
+    }
+
+    /* ── IntersectionObserver factory ── */
+    const observe = (selector, rootMargin = '0px 0px -60px 0px', stagger = 0) => {
+      if (!('IntersectionObserver' in window) || !motionOK) {
+        document.querySelectorAll(selector).forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(({ isIntersecting, target }) => {
+          if (isIntersecting) { target.classList.add('is-visible'); obs.unobserve(target); }
+        });
+      }, { rootMargin, threshold: 0.1 });
+      document.querySelectorAll(selector).forEach((el, i) => {
+        if (stagger) el.style.transitionDelay = `${(i % 3) * stagger}ms`;
+        obs.observe(el);
+      });
+    };
+
+    observe('.menu-card',  '0px 0px -60px 0px', 80);
+    observe('.vibe-card',  '0px 0px -60px 0px', 100);
+    observe('.stat-card',  '0px 0px -60px 0px', 80);
+    observe('.hours-card', '0px 0px -60px 0px', 120);
+
+    /* Flavor pills */
+    if (!('IntersectionObserver' in window) || !motionOK) {
+      document.querySelectorAll('.fp').forEach(el => el.classList.add('is-visible'));
+    } else {
+      const pillObs = new IntersectionObserver((entries) => {
+        entries.forEach(({ isIntersecting, target }) => {
+          if (isIntersecting) { target.classList.add('is-visible'); pillObs.unobserve(target); }
+        });
+      }, { rootMargin: '0px 0px -40px 0px', threshold: 0.1 });
+      document.querySelectorAll('.fp').forEach((pill, i) => {
+        pill.style.transitionDelay = `${Math.min(i * 16, 500)}ms`;
+        pillObs.observe(pill);
+      });
+    }
+
+    /* Shack slide in */
+    if (!('IntersectionObserver' in window) || !motionOK) {
+      document.querySelectorAll('.shack__text, .shack__cards').forEach(el => el.classList.add('is-visible'));
+    } else {
+      const shackObs = new IntersectionObserver((entries) => {
+        entries.forEach(({ isIntersecting, target }) => {
+          if (isIntersecting) { target.classList.add('is-visible'); shackObs.unobserve(target); }
+        });
+      }, { rootMargin: '0px 0px -60px 0px', threshold: 0.1 });
+      document.querySelectorAll('.shack__text, .shack__cards').forEach(el => shackObs.observe(el));
+    }
+
+    /* ── Today's hours highlight ── */
+    const todayRow = document.querySelector(`.hours-row[data-day="${new Date().getDay()}"]`);
+    if (todayRow) todayRow.classList.add('hours-row--today');
+
+    /* ── Custom cursor ── */
+    const cursor = document.getElementById('cursor');
+    if (cursor && window.matchMedia('(pointer: fine)').matches) {
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+        cursor.classList.remove('cursor--hidden');
+      });
+      document.addEventListener('mouseleave', () => cursor.classList.add('cursor--hidden'));
+      document.addEventListener('mouseenter', () => cursor.classList.remove('cursor--hidden'));
+      document.querySelectorAll('a, button, [role="button"], .fp').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('cursor--active'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('cursor--active'));
+      });
+    }
+
+    /* ── Scroll to top ── */
+    const scrollTopBtn = document.getElementById('scroll-top');
+    if (scrollTopBtn) {
+      const heroH = hero ? hero.offsetHeight : 400;
+      window.addEventListener('scroll', () => {
+        scrollTopBtn.classList.toggle('is-visible', window.scrollY > heroH);
+      }, { passive: true });
+      scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: motionOK ? 'smooth' : 'auto' });
+      });
+    }
+
+    /* ── Reduced motion: kill marquee ── */
+    if (!motionOK) {
+      document.querySelector('.marquee-track')?.style.setProperty('animation', 'none');
+    }
+
+  });
+  </script>
+
+</body>
+</html>
